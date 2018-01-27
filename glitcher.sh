@@ -1,29 +1,23 @@
 #!/bin/bash
-SEQ=$(seq 97 122)
+ARGC=$#
 FILE=$1
 NAME=$2
+if [ "2" -ne $ARGC ]
+then
+    echo Usage: $0 filename.ext name
+    exit 1
+fi
 OUTHTML=$NAME.html
 EXT_GLITCH=jpg
 EXT_LOSSLESS=png
-tochar() {
-    printf "\\$(printf %o $1) "
-}
-a_to_z() {
-    for NUM in $SEQ
-    do
-        tochar $NUM
-    done
-}
-A_TO_Z=$(a_to_z)
-
 echo "<!doctype html>" > $OUTHTML
 OUTER=0
-for CHAROUTER in $A_TO_Z
+for CHAROUTER in {a..z}
 do
     OUTPUT=$NAME-$OUTER.gif
     echo "Creating $OUTPUT..."
     INNER=0
-    for CHARINNER in $A_TO_Z
+    for CHARINNER in {a..z}
     do
         FILE_TMPL=$NAME-$OUTER-$INNER
         FILE_GLITCH=$FILE_TMPL.$EXT_GLITCH
